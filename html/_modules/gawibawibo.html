@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gawibawibo &#8212; 가위바위보 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="가위바위보 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for gawibawibo</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. module:: gawibawibo</span>
+<span class="sd">   :platform: Unix, Windows</span>
+<span class="sd">   :synopsis: A GawoBawoBo module.</span>
+<span class="sd">.. moduleauthor:: Hwang se hyeon &lt;imscs21@hanyang.ac.kr&gt;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">curses.ascii</span> <span class="k">import</span> <span class="n">isdigit</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">__main__</span>
+<span class="n">stringdata</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;가위&quot;</span><span class="p">,</span><span class="s2">&quot;바위&quot;</span><span class="p">,</span><span class="s2">&quot;보&quot;</span><span class="p">]</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="c1"># 1. 가위, 2. 바위 , 3. 보</span>
+<div class="viewcode-block" id="anjuncoding"><a class="viewcode-back" href="../gawibawibo.html#gawibawibo.anjuncoding">[docs]</a><span class="k">def</span> <span class="nf">anjuncoding</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This function returns index value as int with safe coding </span>
+<span class="sd">        Currently, In this 1.0 version, input gayui,bayui,bo as index int number </span>
+
+<span class="sd">        it will return index value </span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            - None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            return int value. Return code::</span>
+<span class="sd">            </span>
+<span class="sd">                0 -- 가위</span>
+<span class="sd">                1 -- 바위</span>
+<span class="sd">                2 -- 보</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;가위, 바위, 보를 숫자로 입력하시오(순서대로 0,1,2)&quot;</span>
+    <span class="n">ipt</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+    <span class="k">while</span><span class="p">((</span><span class="ow">not</span> <span class="n">ipt</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">())</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">ipt</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">ipt</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">3</span><span class="p">):</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;잘 못 입력하셨습니다.&quot;</span><span class="p">)</span>
+        <span class="n">ipt</span><span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">ipt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="choose"><a class="viewcode-back" href="../gawibawibo.html#gawibawibo.choose">[docs]</a><span class="k">def</span> <span class="nf">choose</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This function peeks index for Computer(AI)</span>
+<span class="sd">        it will return index value  </span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            - None</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            return int value. Return code::</span>
+<span class="sd">            </span>
+<span class="sd">                0 -- 가위</span>
+<span class="sd">                1 -- 바위</span>
+<span class="sd">                2 -- 보</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="s1">&#39;012&#39;</span><span class="p">))</span></div>
+<div class="viewcode-block" id="check"><a class="viewcode-back" href="../gawibawibo.html#gawibawibo.check">[docs]</a><span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span><span class="n">usr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This function will check who wins </span>
+<span class="sd">        int comp and int usr is parameter as gawibawibo index, and each variable format is int;  </span>
+<span class="sd">        Args:</span>
+<span class="sd">            - comp (int): Integer computer response</span>
+<span class="sd">            - usr (int): Integer user response</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            return int value. Return code::</span>
+<span class="sd">            </span>
+<span class="sd">                -1 -- Computer Wins</span>
+<span class="sd">                0 -- Draw Game</span>
+<span class="sd">                1 -- User Wins</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+   
+    <span class="n">r</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">r</span><span class="o">=</span><span class="n">comp</span><span class="o">-</span><span class="n">usr</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">r</span><span class="o">==</span><span class="mi">2</span> <span class="ow">or</span> <span class="n">r</span><span class="o">==-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">r</span><span class="o">==</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">r</span><span class="o">==-</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">r</span><span class="o">=-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">r</span><span class="o">=</span><span class="mi">0</span>
+   
+    <span class="k">return</span> <span class="n">r</span></div>
+<div class="viewcode-block" id="start"><a class="viewcode-back" href="../gawibawibo.html#gawibawibo.start">[docs]</a><span class="k">def</span> <span class="nf">start</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This function let python start game</span>
+<span class="sd">        </span>
+<span class="sd">        Returns: </span>
+<span class="sd">            there is no return value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">isAutoMode</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">computer</span> <span class="o">=</span> <span class="n">choose</span><span class="p">()</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">isAutoMode</span><span class="p">):</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">anjuncoding</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">user</span> <span class="o">=</span> <span class="n">choose</span><span class="p">()</span>
+        <span class="n">chk</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">computer</span><span class="p">,</span><span class="n">user</span><span class="p">)</span>
+
+    
+        <span class="k">if</span><span class="p">(</span><span class="n">chk</span><span class="o">==-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;컴퓨터가 승리했습니다.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">chk</span><span class="o">==</span><span class="mi">1</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;플레이어가 승리했습니다.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">chk</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;컴퓨터와 플레이어가 비김&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;알 수 없는 판정&quot;</span><span class="p">,</span><span class="n">chk</span><span class="p">)</span></div>
+<span class="k">if</span><span class="p">(</span><span class="s2">&quot;__main__&quot;</span><span class="o">==</span> <span class="n">__name__</span><span class="p">):</span>
+    <span class="n">start</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, 황세현.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
